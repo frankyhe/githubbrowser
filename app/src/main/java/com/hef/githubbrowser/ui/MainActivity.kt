@@ -53,7 +53,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.hef.githubbrowser.TestActivity
 import com.hef.githubbrowser.ui.page.BaseWebView
 import com.hef.githubbrowser.ui.page.MinePrimaryPage
 import com.hef.githubbrowser.ui.page.SearchDialog
@@ -80,6 +79,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        vm.setActivity(this)
         setContent {
             GithubbrowserTheme {
                 val pages = listOf("Search", "Me")
@@ -224,15 +224,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(5.dp))
             }
 
+            //列表拉到底部, 拉取下一页的数据
             RefreshRepositories(onReachedBottom = {
-                Log.d(TestActivity.TAG, "RepositoryFresh()")
-                if(!vm.isAllLoaded()) {
+                isLoading ->
+                Log.d(TAG, "RepositoryFresh(): isLoading = $isLoading")
+                if(isLoading) {
                     vm.searchRepositories(page++)
                 }
             })
 
             SearchDialog(showSearchDialog) { start, key, language ->
-                Log.d(TestActivity.TAG, "start = $start, key = $key, language = $language")
+                Log.d(TAG, "start = $start, key = $key, language = $language")
                 showSearchDialog = false
                 if (start) {
                     vm.clearRepositories()
@@ -244,7 +246,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun RefreshRepositories(onReachedBottom: () -> Unit) {
+    fun RefreshRepositories(onReachedBottom: (loading: Boolean) -> Unit) {
         val repositories by vm.repositoriesLiveData.observeAsState()
 
         val isloading by vm.loadingLiveData.observeAsState()
@@ -262,8 +264,8 @@ class MainActivity : ComponentActivity() {
         }
 
         LaunchedEffect(isAtBottom) {
-            Log.d(TestActivity.TAG, "isAtBottom = $isAtBottom")
-            if (isAtBottom) onReachedBottom()
+            Log.d(TAG, "isAtBottom = $isAtBottom")
+            if (isAtBottom) onReachedBottom(isloading ?: false)
         }
 
         LazyColumn(state = listState) {
@@ -312,7 +314,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            if (count != 0 && isloading == true) {
+            if (isloading == true) {
                 item {
                     Box(
                         modifier = Modifier
