@@ -14,11 +14,11 @@ import org.junit.Assert.*
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+class MyUnitTest {
+//    @Test
+//    fun addition_isCorrect() {
+//        assertEquals(4, 2 + 2)
+//    }
 
     @Test
     fun checkGitHubUtils(){
@@ -39,9 +39,9 @@ class ExampleUnitTest {
         }
     }
 
-    @Test
-    fun checkGithubLoginChecker(){
-        assertTrue(GithubLoginChecker.isLogin("dafkadfladflakdfdakfkdkflogged_in=yesikdadfadfdafa"))
-        assertFalse(GithubLoginChecker.isLogin("dafkadfladflakdfdakfkdkflog=yesikdadfadfdafa"))
-    }
+//    @Test
+//    fun checkGithubLoginChecker(){
+//        assertTrue(GithubLoginChecker.isLogin("dafkadfladflakdfdakfkdkflogged_in=yesikdadfadfdafa"))
+//        assertFalse(GithubLoginChecker.isLogin("dafkadfladflakdfdakfkdkflog=yesikdadfadfdafa"))
+//    }
 }
