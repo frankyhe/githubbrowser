@@ -11,12 +11,14 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 object GitHubModel {
     private const val BASE_URL = "https://api.github.com/"
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.github.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(CoroutineCallAdapterFactory()) // 添加协程调用适配器
-        .build()
-    val api: GitHubService = retrofit.create(GitHubService::class.java)
+
+    val api: GitHubService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory()) // 添加协程调用适配器
+            .build().create(GitHubService::class.java)
+    }
 
 //
 
