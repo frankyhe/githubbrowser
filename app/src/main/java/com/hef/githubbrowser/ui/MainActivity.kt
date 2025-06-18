@@ -138,7 +138,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     HorizontalPager(
                         state = pagerState,
-                        beyondBoundsPageCount = 1,
+                        beyondBoundsPageCount = 0,
                         userScrollEnabled = false,
                         modifier = Modifier
                             .padding(innerPadding)
@@ -213,7 +213,7 @@ class MainActivity : ComponentActivity() {
                         .clickable {
                             showSearchDialog = true
                         },
-                    contentDescription = "Mine Icon"
+                    contentDescription = "start search"
                 )
                 
                 Text(text = "Click here to set search keywords.", fontSize = 18.sp, modifier = Modifier.padding(start = 0.dp, top = 6.dp, end = 0.dp, bottom = 0.dp))
